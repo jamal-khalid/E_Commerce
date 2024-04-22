@@ -1,0 +1,64 @@
+{% extends 'shop/basic.html' %}
+{% block title %}about Section {%endblock%}
+
+{%block css%}
+<style>
+    .ig{
+        max-height: 250px;
+    }
+</style>
+{%endblock%}
+{% block aboutactive %}active{% endblock %}
+{% block body %}
+{%load static%}
+<div class="container my-4">
+    <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">About of Jamal_Services</h1>
+        <p class="lead text-muted"> Jamal_Services is an Indian e-commerce company, headquartered in delhi, and
+            incorporated in pathra as a private limited company. The company initially focused on online book sales
+            before expanding into other product categories such as consumer electronics, fashion, home essentials,
+            groceries, and lifestyle products.
+
+        </p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">Main call to action</a>
+            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p>
+    </div>
+
+</div>
+<div class="container">
+<div class="card-group">
+    <div class="card">
+      <img class="ig" src='{% static "shop/sir.jpg" %}' class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Founder of Jamal_Services</h5>
+        <p class="card-text"> Jamal Khalid founder of Jamal_Services. he is very passionate about own company he wants to be a succesfull bussinesman thats why he started that company in 2022 </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+    <div class="card">
+      <img class="ig" src='{% static "shop/queen.jpg" %}' class="card-img-top" alt="..." >
+      <div class="card-body">
+        <h5 class="card-title">Co-Founder of Jamal_Services</h5>
+        <p class="card-text">Someone from google is Co founder of Jamal_Services. I randomly selected this photo</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+    <div class="card">
+      <img class="ig" src='{% static "shop/iphone.jpeg" %}' class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">best Product</h5>
+        <p class="card-text">That time i unable to think better and i dont understand what should i do so i picked this and paste there don't think more </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

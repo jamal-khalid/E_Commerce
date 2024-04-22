@@ -1,0 +1,113 @@
+{% extends 'shop/basic.html' %}
+{% block title %}about Section {%endblock%}
+{% block trackeractive %}active{% endblock %}
+{% block body %}
+<div class="container col-md-6">
+    <div class="col mx-4 my-4">
+        <h2><b> Jamal_Services Cart Express Tracker </b></h2>
+        <form class="row g-3" method="post" action="#" id="trackerForm">{%csrf_token%}
+            <div class="col-md-6">
+                <label for="orderId" class="form-label">Order_id</label>
+                <input type="text" class="form-control" id="orderId" name="orderId">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <button class="btn btn-primary" type="submit">Track Order </button>
+        </form>
+        <div class="col my-4">
+            <h2 class="my-2"><b>Your Order Status </b></h2>
+            <div class="my-4">
+                <ul class="list-group" id="items">
+
+                </ul>
+            </div>
+        </div>
+        <div class="col my-4">
+            <h2 class="my-2"><b>Your Ordered Items Details </b></h2>
+            <div class="my-4">
+                <ul class="list-group" id="ditems">
+
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+{% endblock %}
+
+{%block js %}
+<script>
+    $('#trackerForm').submit(function (event) {
+        $('#items').empty();
+        var Formdata = {
+            'orderId': $('input[name=orderId]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+
+        };
+        console.log(Formdata)
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: Formdata,
+            encode: true
+        })
+
+            .done(function (data) {
+                $('#ditems').empty();
+                console.log(data)
+                data = JSON.parse(data)
+                if (data['status'] == 'succes') {
+                    updates = data['updates']
+                    for (i = 0; i < updates.length; i++) {
+                        let text = updates[i]['text'];
+                        let time = updates[i]['time'];
+                        mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                    ${text}
+                    <span class="badge bg-primary rounded-pill">${time}</span>
+                </li>`
+
+                        $('#items').append(mystr);
+                    }
+                    cart = JSON.parse(data['itemsjson']);
+                    for (var item in cart) {
+                        let name = cart[item][1]
+                        let qty = cart[item][0]
+                        mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                ${name}
+                <span class="badge bg-primary rounded-pill">${qty}</span>
+            </li>`
+
+                        $('#ditems').append(mystr);
+                    }
+                }
+                else {
+
+
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                Sorry We are not able to find Your Order </li>`
+                    $('#items').append(mystr);
+                    $('#ditems').append(mystr);
+                }
+
+                // fill in the ordered details 
+
+
+
+
+            });
+        event.preventDefault();
+
+    });
+</script>
+
+
+{%endblock%}

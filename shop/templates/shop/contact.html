@@ -1,0 +1,49 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Contact {%endblock%}
+
+{%block css %}
+<style>
+    .mb-3{
+        width: 400px;
+    }
+</style>
+{%endblock%}
+{% block contactactive %}active{% endblock %}
+{% block body %} 
+<div class="container">
+    <h2>Contact Us </h2>
+    <form action="/shop/contact/" method="post">{% csrf_token %} 
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number </label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number ">
+          </div>
+
+          <div class="mb-3">
+            <label for="desc" class="form-label">How May I Help You</label>
+            <textarea class="form-control" id="desc" rows="3"></textarea>
+          </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+{% endblock %}
+
+{% block js%}
+<script>
+`{% if thank %}`
+alert('Thank You for valuable Advice Sir/Madam. We Will try to implement Your Idea')
+document.location='/shop/contact/'
+`{% endif %}`
+</script>
+
+{% endblock %}

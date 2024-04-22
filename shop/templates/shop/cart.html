@@ -1,0 +1,98 @@
+{% extends 'shop/basic.html' %}
+{% block body%}
+<div class="container">
+    <div class="col mx-4">
+        <h1 class="mx-2">Welcome to Jamal_Services Cart </h1>
+        <!-- <h5 onclick="document.getElementById('clearCart').innerHTML='Your Cart Is Empty'">This Is Your Items</h5> -->
+        <p> <span id="itev"></span> <span id="item"></span></p> <br>
+    </div>
+    <a href="/shop/checkout"><button class="btn btn-primary" id="checkout">CheckOut</button></a>
+    <button class="btn btn-primary" onclick="clearCart()" id="clearCart">ClearCart</button>
+</div>
+
+
+{%endblock%}
+
+{%block js %}
+<script>
+
+    cart = JSON.parse(localStorage.getItem('cart'));
+    console.log(cart)
+    Updatecart(cart)
+    // document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    // document.getElementById('item').innerHTML = Object.keys(cart).length;
+    var i = 1;
+    var it = ''
+    if ($.isEmptyObject(cart)){
+        it='<p>Your Cart Is Empty';
+        document.getElementById('item').innerHTML=it;
+    }
+    else{
+    for (var item in cart) {
+        let name = cart[item][1]
+        let qty = cart[item][0]
+        it = it +'<b>'+ i +'</b>'+ " . "
+        i += 1
+        it = it + name + "... Qnty : " + qty + '<br>';
+
+
+        // document.getElementById('itev').innerHTML = item;
+        document.getElementById('item').innerHTML = it;
+        // Updatecart(cart)
+
+
+    }
+}
+
+    // Updatecart(cart)
+    // }
+
+    // Display cart items on the new page
+    $('.cart').click(function () {
+        // let count = 0
+
+        // console.log('clicked');
+        var idstr = this.id.toString();
+        console.log(idstr)
+
+
+        if (cart[idstr] != undefined) {
+            // cart[idstr] = cart[idstr] + 1;
+            qty = cart[idstr][0] + 1;
+        }
+
+        else {
+            qty = 1;
+            name = document.getElementById('name' + idstr).innerHTML;
+            cart[idstr] = [name, qty ];
+
+
+        }
+
+
+        // localStorage.setItem('cart', JSON.stringify(cart));
+        // document.getElementById('cart').innerHTML = Object.keys(cart).length;
+        Updatecart(cart)
+    });
+
+    function Updatecart(cart) {
+        let sum = 0
+        for (let item in cart) {
+            sum = sum + cart[item][0]
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        document.getElementById('cart').innerHTML = sum;
+    }
+
+    function clearCart() {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        // for (var item in cart) {
+        //     document.getElementById('div' + item).innerHTML = '<button id="' + item + '" class="btn btn-primary cart">Add to cart</button>'
+        // }
+        localStorage.clear();
+        cart = {};
+        Updatecart(cart)
+    }
+
+</script>
+{%endblock%}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {% block title %}
+
+      {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    {% block css %}
+      <style></style>
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-secondary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/shop">Jamal_Services</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link {% block homeactive %}
+                {% endblock %}"
+                aria-current="page"
+                href="/shop">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block aboutactive %}
+                {% endblock %}"
+                href="/shop/about">
+                About Us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block contactactive %}
+                {% endblock %}"
+                href="/shop/contact">
+                Contact us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block blogactive %}
+                {% endblock %}"
+                href="/blog">
+                Blog
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block trackeractive %}
+                {% endblock %}"
+                href="/shop/tracker">
+                Tracker
+              </a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search" method="get" action="/shop/search/">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search" />
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+          {% if user.is_authenticated %}
+            <div class="dropdown mx-1">
+              <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome {{ request.user }}</button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/shop/logout/">LogOut</a>
+                </li>
+              </ul>
+            </div>
+          {% else %}
+            <!-- Sign Up Button trigger modal -->
+            <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#signup">SignUp</button>
+
+            <!-- SignIn Button trigger modal -->
+            <button type="button" class="btn btn-success mr-1" data-bs-toggle="modal" data-bs-target="#signin">Login</button>
+          {% endif %}
+
+          <a href="/shop/cartpage"><button type="button" class="btn btn-secondary mx-2" id="pcart" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="bottom popover">Cart(<span id="cart">0</span>)</button></a>
+        </div>
+      </div>
+    </nav>
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Important Message :</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="signupTitle">Sign Up</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/shop/signup/">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Fist Name" required />
+              </div>
+              <div class="mb-3">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Last Name" required />
+              </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email" required />
+              </div>
+              <div class="mb-3">
+                <label for="pass1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Create Password" required />
+              </div>
+              <div class="mb-3">
+                <label for="pass2" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Enter Password Again" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signin" tabindex="-1" aria-labelledby="signin" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="signinTitle">Login</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/shop/login/">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="loginusername" class="form-label">Username</label>
+                <input type="text" class="form-control" id="loginusername" name="loginusername" aria-describedby="emailHelp" required />
+              </div>
+              <div class="mb-3">
+                <label for="loginpassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginpassword" name="loginpassword" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    {% block js %}
+      <script>
+        console.log('its working')
+        console.log(localStorage.getItem('cart'))
+        if (localStorage.getItem('cart') == null) {
+          var cart = {}
+        } else {
+          cart = JSON.parse(localStorage.getItem('cart'))
+          // document.getElementById('cart').innerHTML = Object.keys(cart).length;
+        }
+        $('.cart').click(function () {
+          // let count=0
+        
+          console.log('clicked')
+          var idstr = this.id.toString()
+          console.log(idstr)
+        
+          if (cart[idstr] != undefined) {
+            cart[idstr] = cart[idstr] + 1
+          } else {
+            cart[idstr] = 1
+          }
+          console.log(cart)
+          // for (let i in cart){
+          //     console.log(cart[i],'ccc')
+          //     count = count+cart[i]
+          // }
+          localStorage.setItem('cart', JSON.stringify(cart))
+          document.getElementById('cart').innerHTML = Object.keys(cart).length
+        })
+        
+        $(document).ready(function () {
+          // Select the element with the id "example" using jQuery
+          var $popcart = $('#pcart')
+        
+          // Create a new Popover instance using Bootstrap's API
+          $popcart.popover()
+        })
+        document.getElementById('pcart').setAttribute('data-bs-content', '<h5>cart for your items in my shopping </h5>')
+        
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const searchInput = document.getElementById('search')
+          const placeholders = ['Search products...', 'Find your favorite items...', 'Looking for something special?']
+        
+          let index = 0
+        
+          setInterval(function () {
+            searchInput.placeholder = placeholders[index]
+            index = (index + 1) % placeholders.length
+          }, 3000) // Change every second (1000 milliseconds)
+        })
+      </script>
+    {% endblock %}
+  </body>
+</html>
