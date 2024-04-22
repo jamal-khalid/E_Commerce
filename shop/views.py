@@ -50,7 +50,7 @@ def search(request):
             allProd.append([prod , range(1,nSlides),nSlides])
     params={'allProd':allProd,'msg':''}
     if len(allProd)==0 or len(query)>4:
-        params={'msg':'please fill the valid sentenes You have typed something wrong '}
+        params={'msg':'please fill the valid sentenes.  You have typed something wrong '}
     return render(request , 'shop/index.html',params)
 
 
@@ -186,7 +186,7 @@ def handleLogin(request):
         user=authenticate(username=loginusername , password=loginpassword)
         if user is not None:
             login(request ,user)
-            messages.success(request , "You Have Successfully Logged In Jamal_Services")
+            messages.success(request , "Welcome You Have Successfully Logged In Jamal_Services")
             return redirect('index')
         
         else:
