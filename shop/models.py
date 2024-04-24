@@ -47,5 +47,15 @@ class OrderUpdate(models.Model):
     # time=models.TimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.update_desc[:7]+"...."
+        return self.update_desc[:7]+"...." 
+    
+
+class OTP(models.Model):
+    phone_number = models.CharField(max_length=15)
+    otp_code = models.CharField(max_length=6)
+    is_verified = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.phone_number
     

@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from paytmchecksum import PaytmChecksum
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login, logout
+from .utils import send_otp_to_phone , verify_otp
 
 
 
@@ -183,6 +184,7 @@ def handleLogin(request):
     if request.method=='POST':
         loginusername=request.POST['loginusername']
         loginpassword=request.POST['loginpassword']
+        # phone_number=request.POST['loginpassword']
         user=authenticate(username=loginusername , password=loginpassword)
         if user is not None:
             login(request ,user)
