@@ -16,8 +16,8 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-API_KEY='0d277ef7-6364-11ee-addf-0200cd936042' 
-SENDER_ID='khalid'
+API_KEY='***************************' 
+SENDER_ID='*******'
 
 
 # Quick-start development settings - unsuitable for production
