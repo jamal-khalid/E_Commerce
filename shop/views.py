@@ -56,6 +56,7 @@ def search(request):
 
 
 def about(request):
+    print('this is about ')
     return render (request , 'shop/about.html')
 
 def contact(request):
